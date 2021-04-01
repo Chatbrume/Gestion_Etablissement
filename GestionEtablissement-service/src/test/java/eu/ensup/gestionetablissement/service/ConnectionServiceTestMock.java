@@ -17,7 +17,7 @@ import eu.ensup.gestionetablissement.dao.ExceptionDao;
 import eu.ensup.gestionetablissement.dao.ILoginDao;
 
 @ExtendWith(MockitoExtension.class)
-class ConnectionServiceTest
+class ConnectionServiceTestMock
 {
 	@Mock
 	ILoginDao mockDao; // Objet que l'on vas mocker

@@ -19,7 +19,7 @@ import eu.ensup.gestionetablissement.dao.ILoginDao;
 import eu.ensup.gestionetablissement.dao.LoginDao;
 
 @ExtendWith(MockitoExtension.class)
-class ConnectionServiceTest2
+class ConnectionServiceTestMock2
 {
 	ILoginDao mockDao;
 	ConnectionService service;

@@ -4,41 +4,32 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import eu.ensup.gestionetablissement.dao.ExceptionDao;
-import eu.ensup.gestionetablissement.dao.ICourseDao;
 
 @ExtendWith(MockitoExtension.class)
-class CourseServiceTest
+class CourseServiceTestSpy
 {
-	@Mock
-	ICourseDao mockDao;
-
-	@InjectMocks
+	@Spy
 	CourseService service;
 
 	@Test
-	@DisplayName("Test getIndex pour coursesubject='Informatique' et nbhour=10")
+	@DisplayName("Test getIndex pour coursesubject='informatique' et nbhour=25")
 	void testGetIndex()
 	{
 		try {
-			// GIVEN
-			when(mockDao.getIndex("Informatique", 10)).thenReturn(1);
-			
 			// WHEN
-			final int result = service.getIndex("Informatique", 10);
+			final int result = service.getIndex("informatique", 25);
 			assertThat(result, equalTo(1));
 			
 			// THEN
-			verify(mockDao).getIndex("Informatique", 10);
+			verify(service).getIndex("informatique", 25);
 		}
 		catch (ExceptionDao e) {
 			fail(e.getMessage());
