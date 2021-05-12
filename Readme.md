@@ -8,11 +8,11 @@ Container web Tomcat : version 7.0
 ## Installation
 
 1. Récupéré le projet
-  1. en zip
+  - en zip
     * Aller dans le projet Github : https://github.com/Chatbrume/Gestion_Etablissement.git.
     * Cliquer sur le bouton vert "code" puis télécharger le fichier zip.
     * Dans Windows extraire le fichier zip.
-  2. avec git
+  - avec git
     * ouvrir un terminale dans le dossier ou vous souhaiter avoir l'application
     * git clone https://github.com/Chatbrume/Gestion_Etablissement.git
 2. La base de donnée
