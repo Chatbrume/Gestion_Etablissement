@@ -6,31 +6,9 @@ Version java : 15.0.2
 
 ## Utilisation
 Cloner le projet dans le répertoire de votre choix.
-> git clone https://github.com/DaviJam/Gestion_Etablissement.git
+> git clone https://github.com/Chatbrume/Gestion_Etablissement.git
 
 # GestionEtablissement
-
-## Release V4
-
-* Passage du projet sous maven,
-* Ajout des tests unitaires avec junit, harmcrest et mockito
-
-## Release V3
-
-* Possibilité de renseigner la moyenne générale d'un étudiant,
-* Possibilité d'afficher la moyenne des étudiants sous forme d'histogramme et camembert
-
-## Release V2
-
-Amélioration de la gestion des erreurs
-
-## Release V1
-
-Amélioration de la robustesse
-
-## Release V0
-
-Création du projet
 
 ## Fonctionalités
 
@@ -45,7 +23,7 @@ Ce logiciel permet de gérer un etablissement scolaire. Il est actuellement poss
 
 Pré-requis: avoir installé Java en local sur son ordinateur
 
-* Aller dans le projet Github : https://github.com/DaviJam/GestionEtablissement.
+* Aller dans le projet Github : https://github.com/Chatbrume/Gestion_Etablissement.git.
 * Cliquer sur le bouton vert "code" puis télécharger le fichier zip.
 * Dans Windows extraire le fichier zip.
 * Se rendre dans le dossier "GestionEtablissement".
