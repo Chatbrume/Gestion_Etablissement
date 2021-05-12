@@ -92,4 +92,24 @@
 		<servlet-name>MarkServlet</servlet-name>
 		<url-pattern>/mark/*</url-pattern>
 	</servlet-mapping>
+
+	<!-- Ajout d'un lien -->
+	<servlet>
+		<servlet-name>CoursePersonServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.CoursePersonServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoursePersonServlet</servlet-name>
+		<url-pattern>/couseperson/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Allez a la page ajout d'un lien -->
+	<servlet>
+		<servlet-name>CoursePersonServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.CoursePersonServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoursePersonServlet</servlet-name>
+		<url-pattern>/couseperson</url-pattern>
+	</servlet-mapping>
 </web-app>

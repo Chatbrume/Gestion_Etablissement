@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page import="eu.ensup.gestionetablissement.dto.CourseDTO" %>
 <jsp:include page="header.jsp"/>
 		<main class="container py-5">
@@ -24,7 +23,7 @@
 					<a class="btn btn-outline-dark mb-2" href="/GestionEtablissement/course/create">Ajouter un cours</a>
                     <table class="table table-striped table-hover table-bordered border-dark rounded">
                         <thead class="table-dark">
-                            <tr>
+                            <tr class="text-center">
                                 <th> Nom du cours </th>
                                 <th> Nombre d'heure </th>
                                 <th> Actions </th>
@@ -39,7 +38,7 @@
                             <tr>
                                 <td> <%=course.getCourseSubject()%> </td>
                                 <td> <%=course.getNbHours()%> </td>
-                                <td>
+                                <td class="text-center">
                                     <a class="btn btn-sm btn-dark" href="/GestionEtablissement/course/get/<%=course.getId()%>">Détails</a>
                                     <a class="btn btn-sm btn-dark" href="/GestionEtablissement/course/update/<%=course.getId()%>">Modifier</a>
                                     <a class="btn btn-sm btn-dark" href="/GestionEtablissement/course/delete/<%=course.getId()%>">Supprimer</a>

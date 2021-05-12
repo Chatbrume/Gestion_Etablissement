@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@ page import="eu.ensup.gestionetablissement.dto.PersonDTO" %>
 <%@ page import="eu.ensup.gestionetablissement.dto.StudentDTO" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 <jsp:include page="header.jsp"/>
 		<main class="container py-5">
 		    <div id="alerts" name="alerts">
@@ -27,7 +23,7 @@
 					<a class="btn btn-outline-dark mb-2" href="/GestionEtablissement/student/create">Ajouter un étudiant</a>
                     <table class="table table-striped table-hover table-bordered border-dark rounded">
                         <thead class="table-dark">
-                            <tr>
+                            <tr class="text-center">
                                 <th> Nom </th>
                                 <th> Prenom </th>
                                 <th> Email </th>
@@ -39,10 +35,9 @@
                         </thead>
                         <tbody>
                         <%
-                            List<PersonDTO> list = (List<PersonDTO>) request.getAttribute("students");
-                           for(PersonDTO person : list)
-                           {
-                                if(person instanceof StudentDTO) {
+                            List<StudentDTO> list = (List<StudentDTO>) request.getAttribute("students");
+                            for(StudentDTO person : list)
+                            {
                         %>
                             <tr>
                                 <td> <%=person.getLastname()%> </td>
@@ -51,14 +46,13 @@
                                 <td> <%=person.getAddress()%> </td>
                                 <td> <%=person.getPhoneNumber()%> </td>
                                 <td> <%=((StudentDTO) person).getDateOfBirth().toString()%> </td>
-                                <td>
+                                <td class="text-center">
                                     <a class="btn btn-sm btn-dark" href="/GestionEtablissement/student/get/<%=person.getId()%>">Détails</a>
                                     <a class="btn btn-sm btn-dark" href="/GestionEtablissement/student/update/<%=person.getId()%>">Modifier</a>
                                     <a class="btn btn-sm btn-dark" href="/GestionEtablissement/student/delete/<%=person.getId()%>">Supprimer</a>
                                 </td>
                             </tr>
                         <%
-                                }
                             }
                         %>
                         </tbody>

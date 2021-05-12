@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
-<%@ page import="eu.ensup.gestionetablissement.dto.MarkDTO" %>
+<%@ page import="java.lang.Integer" %>
 <%@ page import="eu.ensup.gestionetablissement.dto.StudentDTO" %>
 <%@ page import="eu.ensup.gestionetablissement.dto.CourseDTO" %>
 <jsp:include page="header.jsp" />
@@ -15,23 +15,33 @@
               <a class="btn btn-outline-light" href="/GestionEtablissement/accueil"> < </a>
             </div>
             <div class="col-sm-8">
-              <h5 class="card-title text-center"><%=request.getAttribute("title") %></h5>
+              <h5 class="card-title text-center">Lier</h5>
             </div>
             <div class="col-sm-2"></div>
           </div>
         </div>
         <%
-          MarkDTO mark= null;
-          if( request.getAttribute("mark") != null )
-            mark = (MarkDTO) request.getAttribute("mark");
+            boolean haveSelectedValue = false;
+            
+            int idStudent = -1;
+            try{
+                idStudent = Integer.parseInt(request.getAttribute("idStudent").toString());
+            }  
+            catch(Exception e) {}
 
-          int    idMark     = (mark == null ? -1 : mark.getId());
-          int    idStudent  = (mark == null ? -1 : mark.getIdStudent());
-          int    idCourse   = (mark == null ? -1 : mark.getIdCourse());
-          Float  markValue  = (mark == null ? 0f : mark.getMark());
-          String assessment = (mark == null ? "" : mark.getAssessment());
+            int idCourse = -1;
+            try{
+                idCourse = Integer.parseInt(request.getAttribute("idCourse").toString());
+            }  
+            catch(Exception e) {}
+
+            //if( (List.of(request.getAttributeNames())).contains("idStudent") && request.getAttribute("idStudent") != null )
+            //    idStudent = Integer.parseInt(request.getAttribute("idStudent"));
+            
+            //if( (List.of(request.getAttributeNames())).contains("idCourse") && request.getAttribute("idCourse") != null )
+            //    idCourse = Integer.parseInt(request.getAttribute("idCourse"));
         %>
-        <form name="mark" action="<%=request.getAttribute("formaction")%>" method="get" class="needs-validation" novalidate>
+        <form name="mark" action="/GestionEtablissement/couseperson" method="get" class="needs-validation" novalidate>
           <div class="card-body bg-light">
             <div class="mb-3 row form-group">
               <label for="idStudent" class="col-lg-2 col-sm-12 form-label">Etudiant :</label>
@@ -40,7 +50,7 @@
                   <%
                     List<StudentDTO> listStudents = (List<StudentDTO>) request.getAttribute("students");
 
-                    boolean haveSelectedValue = false;
+                    haveSelectedValue = false;
                     for(StudentDTO person : listStudents)
                     {
                       if( (idStudent == -1 && ! haveSelectedValue) || (idStudent != -1 && person.getId() == idStudent) )
@@ -89,18 +99,6 @@
                 </select>
               </div>
             </div>
-            <div class="mb-3 row form-group">
-              <label for="mark" class="col-lg-2 col-sm-12 form-label">Note :</label>
-              <div class="col-lg-10 col-sm-12">
-                <input type="number" name="mark" class="form-control" id="mark" value="<%=markValue%>" min="0" max="20" required/>
-              </div>
-            </div>
-            <div class="mb-3 row form-group">
-              <label for="assessment" class="col-lg-2 col-sm-12 form-label">Appréciation :</label>
-              <div class="col-lg-10 col-sm-12">
-                <input type="text" name="assessment" class="form-control" id="assessment" value="<%=assessment%>"/>
-              </div>
-            </div>
           </div>
           <div class="card-footer bg-dark">
             <div class="row">
@@ -108,27 +106,27 @@
                 <input type="reset" class="btn btn-outline-light" value="Reset" />
               </div>
               <div class="col-lg-4 col-sm-4 text-center">
-                <input type="button" class="btn btn-outline-light" value="Delete" data-bs-toggle="modal" data-bs-target="#verifydeletestudent" />
+                <!--input type="button" class="btn btn-outline-light" value="Delete" data-bs-toggle="modal" data-bs-target="#verifydeletestudent" /-->
               </div>
               <div class="col-lg-4 col-sm-4 text-center">
                 <input type="submit" class="btn btn-outline-light" value="Submit" />
               </div>
             </div>
           </div>
-          <div class="modal fade" id="verifydeletestudent" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"aria-hidden="true">
+          <!--div class="modal fade" id="verifydeletestudent" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel">Voulez-vous vraiment supprimer cet note ?</h5>
+                  <h5 class="modal-title" id="staticBackdropLabel">Voulez-vous vraiment supprimer cet liason ?</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-dark" value="Delete" formaction="/GestionEtablissement/mark/delete/<%=idMark%>"/>
+                  <input type="submit" class="btn btn-dark" value="Delete" formaction="/GestionEtablissement/mark/delete/"/>
                 </div>
               </div>
             </div>
-          </div>
+          </div-->
         </form>
       </div>
     </main>

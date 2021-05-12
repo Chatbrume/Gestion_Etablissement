@@ -1,10 +1,14 @@
 package eu.ensup.gestionetablissement.presentation;
 
 import eu.ensup.gestionetablissement.dto.CourseDTO;
+import eu.ensup.gestionetablissement.dto.PersonDTO;
+import eu.ensup.gestionetablissement.dto.StudentDTO;
 import eu.ensup.gestionetablissement.service.CourseService;
 import eu.ensup.gestionetablissement.service.ExceptionService;
+import eu.ensup.gestionetablissement.service.PersonService;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -82,13 +86,20 @@ public class CourseServlet extends HttpServlet
 			this.getServletContext().getRequestDispatcher( "/accueil.jsp" ).forward( request, response );
 	}
 
+	public static List<CourseDTO> getAllCourse() throws ExceptionService
+	{
+		CourseService cs = new CourseService();
+
+		return cs.getAll();
+	}
+
 	public void getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		RequestDispatcher dispatcher;
 
 		CourseService cs = new CourseService();
 		try {
-			request.setAttribute("courses", cs.getAll());
+			request.setAttribute("courses", getAllCourse());
 			dispatcher= request.getRequestDispatcher("/get_all_course.jsp");
 		}
 		catch (ExceptionService exceptionService) {

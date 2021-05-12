@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,10 @@ public class StudentServlet extends HttpServlet
         {
             action    = pathInfo[0];
             idStudent = Integer.parseInt(pathInfo[1]);
+        }
+        else if( servletPath.equals("student") && pathInfo.length == 1 && pathInfo[0].contains("get") )
+        {
+            action    = "get";
         }
         else if( servletPath.equals("student") && pathInfo.length == 1 && pathInfo[0].contains("create") )
         {
@@ -142,13 +147,25 @@ public class StudentServlet extends HttpServlet
         }
     }*/
 
+    public static List<StudentDTO> getAllStudent() throws ExceptionService
+    {
+        List<StudentDTO> allStudent = new ArrayList<StudentDTO>();
+        PersonService ps = new PersonService();
+
+        for( PersonDTO person : ps.getAll() )
+            if( person.getRole().getName().equals("Student") )
+                allStudent.add((StudentDTO)person);
+
+        return allStudent;
+    }
+
     public void getAllStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         RequestDispatcher dispatcher;
 
         PersonService ps = new PersonService();
         try {
-            request.setAttribute("students", ps.getAll());
+            request.setAttribute("students", getAllStudent());
             dispatcher= request.getRequestDispatcher("/get_all_student.jsp");
         }
         catch (ExceptionService exceptionService) {
@@ -193,28 +210,19 @@ public class StudentServlet extends HttpServlet
         dispatcher.forward(request, response);
     }
 
-    public void getStudent(HttpServletRequest request, HttpServletResponse response, int idStudent) throws ServletException, IOException
+    public void getStudent(HttpServletRequest request, HttpServletResponse response, Integer idStudent) throws ServletException, IOException
     {
         //Traitement des infos
         RequestDispatcher dispatcher;
 
         PersonService ps = new PersonService();
         try {
-            PersonDTO person = ps.get(idStudent);
+            request.setAttribute("idstudent", (idStudent == null ? -1 : idStudent));
+            request.setAttribute("students", getAllStudent());
 
-            if( person.getRole().getName().equals("Student") )
-            {
-                request.setAttribute("title", "Etudiant");
-                request.setAttribute("formaction", "/GestionEtablissement/student/update/"+idStudent);
-                request.setAttribute("student", (StudentDTO)person);
-                dispatcher = request.getRequestDispatcher("/student.jsp");
-            }
-            else
-            {
-                request.setAttribute("alert_type", "warning");
-                request.setAttribute("alert_text", "La person "+person.getFirstname()+" "+person.getLastname()+" n'est pas un étudiant");
-                dispatcher= request.getRequestDispatcher("/accueil.jsp");
-            }
+            request.setAttribute("title", "Etudiant");
+            request.setAttribute("formaction", "/GestionEtablissement/student/update/"+idStudent);
+            dispatcher = request.getRequestDispatcher("/student.jsp");
         }
         catch (ExceptionService exceptionService)
         {
@@ -226,7 +234,7 @@ public class StudentServlet extends HttpServlet
         dispatcher.forward(request, response);
     }
 
-    public void updateStudent(HttpServletRequest request, HttpServletResponse response, int idStudent) throws ServletException, IOException
+    public void updateStudent(HttpServletRequest request, HttpServletResponse response, Integer idStudent) throws ServletException, IOException
     {
         //Traitement des infos
         RequestDispatcher dispatcher = null;
@@ -251,20 +259,18 @@ public class StudentServlet extends HttpServlet
                     request.setAttribute("alert_text", "La person "+person.getFirstname()+" "+person.getLastname()+" n'est pas un étudiant");
                 }
 
+
                 dispatcher= request.getRequestDispatcher("/accueil.jsp");
             }
             else
             {
-                StudentDTO student = (StudentDTO) ps.get(idStudent);
+                request.setAttribute("idstudent", (idStudent == null ? -1 : idStudent));
+                request.setAttribute("students", getAllStudent());
 
-                if( student.getRole().getName().equals("Student") )
-                {
-                    request.setAttribute("title", "Modifier étudiant");
-                    request.setAttribute("formaction", "/GestionEtablissement/student/update/"+idStudent);
-                    request.setAttribute("student", student);
+                request.setAttribute("title", "Modifier étudiant");
+                request.setAttribute("formaction", "/GestionEtablissement/student/update/"+idStudent);
 
-                    dispatcher = request.getRequestDispatcher("/student.jsp");//update_student
-                }
+                dispatcher = request.getRequestDispatcher("/student.jsp");
             }
         }
         catch (ExceptionService exceptionService)

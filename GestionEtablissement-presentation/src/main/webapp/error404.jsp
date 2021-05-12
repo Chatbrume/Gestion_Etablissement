@@ -11,8 +11,6 @@
 	            	<img src="/GestionEtablissement/images/erreur404-1.png"/>
 
 	            	<img src="/GestionEtablissement/images/erreur404-2.png"/>
-
-	            	<img src="/GestionEtablissement/images/erreur404-9.png"/>
 	            </div>
 	          </div>
           </div>

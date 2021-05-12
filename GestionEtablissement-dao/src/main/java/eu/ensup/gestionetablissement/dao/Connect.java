@@ -14,8 +14,8 @@ public class Connect
 	private static final String USERNAME = "225269";
 	private static final String PASSWORD = "GestionEtablissement";*/
 	private static final String URL = "jdbc:mysql://127.0.0.1:3306/gestionetablissement?serverTimezone=UTC";
-	private static final String USERNAME = "dev";
-	private static final String PASSWORD = "dev";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "";
 
 	/**
 	 * Open an connention with the information in the class

@@ -1,6 +1,9 @@
 package eu.ensup.gestionetablissement.presentation;
 
+import eu.ensup.gestionetablissement.business.Mark;
+import eu.ensup.gestionetablissement.dto.CourseDTO;
 import eu.ensup.gestionetablissement.dto.MarkDTO;
+import eu.ensup.gestionetablissement.service.CourseService;
 import eu.ensup.gestionetablissement.service.MarkService;
 import eu.ensup.gestionetablissement.service.ExceptionService;
 
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class MarkServlet extends HttpServlet
 {
@@ -83,13 +87,22 @@ public class MarkServlet extends HttpServlet
             this.getServletContext().getRequestDispatcher( "/accueil.jsp" ).forward( request, response );
     }
 
+    public static List<MarkDTO> getAllMark() throws ExceptionService
+    {
+        MarkService ms = new MarkService();
+
+        return ms.getAll();
+    }
+
     public void getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         RequestDispatcher dispatcher;
 
-        MarkService cs = new MarkService();
+        MarkService ms = new MarkService();
         try {
-            request.setAttribute("marks", cs.getAll());
+            request.setAttribute("marks", getAllMark());
+            request.setAttribute("students", StudentServlet.getAllStudent());
+            request.setAttribute("courses", CourseServlet.getAllCourse());
             dispatcher= request.getRequestDispatcher("/get_all_mark.jsp");
         }
         catch (ExceptionService exceptionService) {
@@ -107,25 +120,29 @@ public class MarkServlet extends HttpServlet
         RequestDispatcher dispatcher;
 
         MarkDTO mark = null;
-        if( request.getAttribute("mark") != null )
-        {
-            mark = (MarkDTO) request.getAttribute("mark");
+        try {
+            if( request.getAttribute("mark") != null )
+            {
+                mark = (MarkDTO) request.getAttribute("mark");
 
-            MarkService cs = new MarkService();
-            try {
-                cs.create(mark);
+                MarkService ms = new MarkService();
+                ms.create(mark);
+
                 dispatcher= request.getRequestDispatcher("/accueil.jsp");
             }
-            catch (ExceptionService exceptionService) {
-                request.setAttribute("alert_type", "danger");
-                request.setAttribute("alert_text", exceptionService.getMessage());
+            else
+            {
+                request.setAttribute("students", StudentServlet.getAllStudent());
+                request.setAttribute("courses", CourseServlet.getAllCourse());
+                request.setAttribute("title", "Ajouter une nouvelle notes");
+                request.setAttribute("formaction", "/GestionEtablissement/mark/create");
                 dispatcher= request.getRequestDispatcher("/mark.jsp");
             }
         }
-        else
+        catch (ExceptionService exceptionService)
         {
-            request.setAttribute("title", "Ajouter une nouvelle notes");
-            request.setAttribute("formaction", "/GestionEtablissement/mark/create");
+            request.setAttribute("alert_type", "danger");
+            request.setAttribute("alert_text", exceptionService.getMessage());
             dispatcher= request.getRequestDispatcher("/mark.jsp");
         }
 
@@ -138,14 +155,14 @@ public class MarkServlet extends HttpServlet
         //Traitement des infos
         RequestDispatcher dispatcher;
 
-        MarkService cs = new MarkService();
+        MarkService ms = new MarkService();
         try {
-            System.out.println("Est passer 1");
-            System.out.println("idMark: "+idMark);
-            if( cs.get(idMark) != null )
+            if( ms.get(idMark) != null )
             {
-                System.out.println("Est passer 2");
-                MarkDTO mark = cs.get(idMark);
+                MarkDTO mark = ms.get(idMark);
+
+                request.setAttribute("students", StudentServlet.getAllStudent());
+                request.setAttribute("courses", CourseServlet.getAllCourse());
 
                 request.setAttribute("title", "Notes");
                 request.setAttribute("formaction", "/GestionEtablissement/mark/update/" + idMark);
@@ -172,14 +189,14 @@ public class MarkServlet extends HttpServlet
         //Traitement des infos
         RequestDispatcher dispatcher = null;
 
-        MarkService cs = new MarkService();
+        MarkService ms = new MarkService();
 
         try {
             if( request.getAttribute("mark") != null )
             {
                 MarkDTO mark = (MarkDTO) request.getAttribute("mark");
 
-                cs.update((MarkDTO) request.getAttribute("mark"));
+                ms.update((MarkDTO) request.getAttribute("mark"));
 
                 request.setAttribute("alert_type", "info");
                 request.setAttribute("alert_text", "Vous avez mis a jour les infomations de la notes: "+mark.getMark());
@@ -188,7 +205,10 @@ public class MarkServlet extends HttpServlet
             }
             else
             {
-                MarkDTO mark = (MarkDTO) cs.get(idMark);
+                MarkDTO mark = (MarkDTO) ms.get(idMark);
+
+                request.setAttribute("students", StudentServlet.getAllStudent());
+                request.setAttribute("courses", CourseServlet.getAllCourse());
 
                 request.setAttribute("title", "Modifier la notes");
                 request.setAttribute("formaction", "/GestionEtablissement/mark/update/" + idMark);
@@ -216,9 +236,9 @@ public class MarkServlet extends HttpServlet
         //Traitement des infos
         RequestDispatcher dispatcher;
 
-        MarkService cs = new MarkService();
+        MarkService ms = new MarkService();
         try {
-            MarkDTO mark = cs.get(idMark);
+            MarkDTO mark = ms.get(idMark);
 
             if( mark == null )
             {
@@ -227,7 +247,7 @@ public class MarkServlet extends HttpServlet
             }
             else
             {
-                cs.delete(idMark);
+                ms.delete(idMark);
                 request.setAttribute("alert_type", "info");
                 request.setAttribute("alert_text", "Vous avez supprimer la notes: " + mark.getMark());
             }

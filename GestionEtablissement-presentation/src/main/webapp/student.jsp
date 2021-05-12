@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.lang.Integer" %>
 <%@ page import="eu.ensup.gestionetablissement.dto.StudentDTO" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 <jsp:include page="header.jsp" />
     <main class="container py-5">
       <div id="alerts" name="alerts">
@@ -15,14 +15,40 @@
             </div>
             <div class="col-sm-8">
               <h5 class="card-title text-center"><%=request.getAttribute("title") %></h5>
+              <select class="form-select" aria-label="<%=request.getAttribute("title") %>" onchange="window.document.location.href='/GestionEtablissement/student/get/'+this.options[this.selectedIndex].value;">
+                <%
+                  List<StudentDTO> list = (List<StudentDTO>) request.getAttribute("students");
+                  StudentDTO currentStudent = null;
+
+                  int idstudent = Integer.parseInt(request.getAttribute("idstudent").toString());
+                  boolean haveSelectedValue = false;
+                  for(StudentDTO person : list)
+                  {
+                    if( (idstudent == -1 && ! haveSelectedValue) || (idstudent != -1 && person.getId() == idstudent) )
+                    {
+                      currentStudent = (StudentDTO) person;
+                      haveSelectedValue = true;
+                %>
+                  <option value="<%=person.getId()%>" selected><%=person.getLastname()%> <%=person.getFirstname()%></option>
+                <%
+                    }
+                    else
+                    {
+                %>
+                  <option value="<%=person.getId()%>"><%=person.getLastname()%> <%=person.getFirstname()%></option>
+                <%
+                    }
+                  }
+                %>
+              </select>
             </div>
             <div class="col-sm-2"></div>
           </div>
         </div>
         <%
           StudentDTO student= null;
-          if( request.getAttribute("student") != null )
-            student= (StudentDTO) request.getAttribute("student");
+          if( currentStudent != null )
+            student= (StudentDTO) currentStudent;
 
           int idStudent= (student == null ? -1 : student.getId());
           String lastname= (student == null ?"" : student.getLastname());

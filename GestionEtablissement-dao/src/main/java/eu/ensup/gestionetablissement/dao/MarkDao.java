@@ -132,10 +132,8 @@ public class MarkDao implements IMarkDao
             st = cn.createStatement();
             res = st.executeQuery("SELECT * FROM Mark WHERE id="+index);
 
-            System.out.println("Est passer 3");
             while( res.next() ) {
                 mark = new Mark(res.getInt("id"), res.getInt("idStudent"), res.getInt("idCourse"), res.getFloat("mark"), res.getString("assessment"));
-                System.out.println("Est passer 4");
             }
 
             if(mark == null){
