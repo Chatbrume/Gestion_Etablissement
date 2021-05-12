@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
 
 	<display-name>GestionEtablissement</display-name>
@@ -111,5 +112,15 @@
 	<servlet-mapping>
 		<servlet-name>CoursePersonServlet</servlet-name>
 		<url-pattern>/couseperson</url-pattern>
+	</servlet-mapping>
+
+	<!-- Stat -->
+	<servlet>
+		<servlet-name>StatisticServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.StatisticServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StatisticServlet</servlet-name>
+		<url-pattern>/stats</url-pattern>
 	</servlet-mapping>
 </web-app>

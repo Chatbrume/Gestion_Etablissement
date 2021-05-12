@@ -228,7 +228,7 @@ public class StudentServlet extends HttpServlet
         {
             request.setAttribute("alert_type", "danger");
             request.setAttribute("alert_text", exceptionService.getMessage());
-            dispatcher= request.getRequestDispatcher("/accueil.jsp");
+            dispatcher = request.getRequestDispatcher("/accueil.jsp");
         }
         //Redirection
         dispatcher.forward(request, response);

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Date"%>
 <%@ page import="java.lang.Integer" %>
 <%@ page import="eu.ensup.gestionetablissement.dto.StudentDTO" %>
 <jsp:include page="header.jsp" />
@@ -53,7 +54,7 @@
           int idStudent= (student == null ? -1 : student.getId());
           String lastname= (student == null ?"" : student.getLastname());
           String firstname= (student == null ?"" : student.getFirstname());
-          String dateofbirth= (student == null ?"" : ((Date)student.getDateOfBirth()).toString());
+          String dateofbirth= (student == null ?"" : student.getDateOfBirth().toString());
           String password= (student == null ?"" : student.getPassword());
           String address= (student == null ?"" : student.getAddress());
           String email= (student == null ?"" : student.getMailAddress());

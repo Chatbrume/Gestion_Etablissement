@@ -3,8 +3,6 @@ package eu.ensup.gestionetablissement.dao;
 import eu.ensup.gestionetablissement.logger.LoggerHandler;
 import org.apache.log4j.Logger;
 
-import java.util.Optional;
-
 public class LoggerDao extends LoggerHandler {
     public LoggerDao(){
         super();
