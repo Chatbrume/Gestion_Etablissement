@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import eu.ensup.gestionetablissement.business.Director;
-import eu.ensup.gestionetablissement.business.Manager;
-import eu.ensup.gestionetablissement.business.Mark;
-import eu.ensup.gestionetablissement.business.Person;
-import eu.ensup.gestionetablissement.business.Student;
-import eu.ensup.gestionetablissement.business.Teacher;
+import eu.ensup.gestionetablissement.business.*;
 import eu.ensup.gestionetablissement.dao.ExceptionDao;
 import eu.ensup.gestionetablissement.dao.IPersonDao;
 import eu.ensup.gestionetablissement.dao.MarkDao;
@@ -99,6 +94,23 @@ public class PersonService implements IEntityService<PersonDTO> {
         return check;
     }
 
+    // Create Person
+    @Override
+    public int create(PersonDTO person) throws ExceptionService
+    {
+        int role = person.getRole().getNum();
+
+        Date dateofbirth = null;
+        if( person instanceof StudentDTO )
+            dateofbirth = ((StudentDTO)person).getDateOfBirth();
+
+        String subjectTaught = null;
+        if( person instanceof TeacherDTO )
+            subjectTaught = ((TeacherDTO)person).getSubjectTaught();
+
+        return this.create(person.getLastname(), person.getMailAddress(), person.getAddress(), person.getPhoneNumber(), person.getFirstname(), person.getPassword(), role, dateofbirth, subjectTaught);
+    }
+
     // Update Person
     @Override
     public int update(String surname, String mail, String address, String phone, String firstname, String password, int role, Date dateofbirth, String subjectTaught, double average) throws ExceptionService {
@@ -147,6 +159,24 @@ public class PersonService implements IEntityService<PersonDTO> {
                 break;
         }
         return res;
+    }
+
+    @Override
+    public int update(PersonDTO person) throws ExceptionService
+    {
+        Date dateofbirth = null;
+        if( person instanceof StudentDTO )
+            dateofbirth = ((StudentDTO)person).getDateOfBirth();
+
+        Double mark = null;
+        if( person instanceof StudentDTO )
+            mark = ((StudentDTO)person).getAverage();
+
+        String subjectTaught = null;
+        if( person instanceof TeacherDTO )
+            subjectTaught = ((TeacherDTO)person).getSubjectTaught();
+
+        return this.update(person.getLastname(), person.getMailAddress(), person.getAddress(), person.getPhoneNumber(), person.getFirstname(), person.getPassword(), person.getRole().getNum(), dateofbirth, subjectTaught, mark);
     }
 
     @Override
@@ -209,8 +239,8 @@ public class PersonService implements IEntityService<PersonDTO> {
         String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
         List<PersonDTO> personDTOList = new ArrayList<PersonDTO>();
         try {
-        	List<Person> listAllPerson = this.dao.getAll();
-        	for(Person person : listAllPerson)
+            List<Person> listAllPerson = this.dao.getAll();
+            for(Person person : listAllPerson)
             {
                 if (person instanceof Student) {
                     StudentDTO studentDTO = new StudentDTO();
@@ -236,7 +266,40 @@ public class PersonService implements IEntityService<PersonDTO> {
             serviceLogger.logServiceError(className, methodName,"Un problème est survenue lors de l'appel à cette méthode.");
             throw new ExceptionService(exceptionDao.getMessage());
         }
+    }
 
+    public List<PersonDTO> getAll(String clasz) throws ExceptionService
+    {
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        List<PersonDTO> personDTOList = new ArrayList<PersonDTO>();
+        try {
+        	List<Person> listAllPerson = this.dao.getAll();
+        	for(Person person : listAllPerson)
+            {
+                if ( clasz.equals(Student.class.getName()) && person instanceof Student) {
+                    StudentDTO studentDTO = new StudentDTO();
+                    studentDTO = StudentMapper.businessToDto((Student) person);
+                    studentDTO.setAverage(getAverage(studentDTO.getId()));
+                    personDTOList.add(studentDTO);
+                } else if ( clasz.equals(Manager.class.getName()) && person instanceof Manager) {
+                    ManagerDTO managerDTO = new ManagerDTO();
+                    managerDTO = ManagerMapper.businessToDto((Manager) person);
+                    personDTOList.add(managerDTO);
+                } else if ( clasz.equals(Teacher.class.getName()) && person instanceof Teacher) {
+                    TeacherDTO teacherDTO = new TeacherDTO();
+                    teacherDTO = TeacherMapper.businessToDto((Teacher) person);
+                    personDTOList.add(teacherDTO);
+                } else if ( clasz.equals(Director.class.getName()) && person instanceof Director) {
+                    DirectorDTO directorDTO = new DirectorDTO();
+                    directorDTO = DirectorMapper.businessToDto((Director) person);
+                    personDTOList.add(directorDTO);
+                }
+            }
+            return personDTOList;
+        }catch (ExceptionDao exceptionDao){
+            serviceLogger.logServiceError(className, methodName,"Un problème est survenue lors de l'appel à cette méthode.");
+            throw new ExceptionService(exceptionDao.getMessage());
+        }
     }
     
     public float getAverage(int index) throws ExceptionService
@@ -247,13 +310,12 @@ public class PersonService implements IEntityService<PersonDTO> {
     	List<Mark> listMark;
 		try {
 			listMark = (new MarkDao()).getAllMarkByStudentId(index);
-	    	
-	    	for( Mark mark : listMark )
-	    	{
-	    		average += mark.getMark();
-	    	}
-	    	
-	    	average = average / listMark.size();
+			if( listMark != null ) {
+                for (Mark mark : listMark) {
+                    average += mark.getMark();
+                }
+                average = average / listMark.size();
+            }
 		}
 		catch (ExceptionDao exceptionDao) {
 			serviceLogger.logServiceError(className, methodName,"Un problème est survenue lors de l'appel à cette méthode.");

@@ -1,0 +1,95 @@
+<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+
+	<display-name>GestionEtablissement</display-name>
+
+	<!-- Default page -->
+
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error404.jsp</location>
+	</error-page>
+
+	<!-- Connexion -->
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+
+	<!-- Accueil -->
+	<servlet>
+		<servlet-name>AccueilServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.AccueilServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AccueilServlet</servlet-name>
+		<url-pattern>/accueil</url-pattern>
+	</servlet-mapping>
+
+	<!-- Liste étudiants -->
+	<servlet>
+		<servlet-name>StudentServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.StudentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StudentServlet</servlet-name>
+		<url-pattern>/students</url-pattern>
+	</servlet-mapping>
+
+	<!-- Gestion d'un étudiant -->
+	<servlet>
+		<servlet-name>StudentServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.StudentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StudentServlet</servlet-name>
+		<url-pattern>/student/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Liste des cours -->
+	<servlet>
+		<servlet-name>CourseServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.CourseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CourseServlet</servlet-name>
+		<url-pattern>/courses</url-pattern>
+	</servlet-mapping>
+
+	<!-- Gestion d'un cours -->
+	<servlet>
+		<servlet-name>CourseServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.CourseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CourseServlet</servlet-name>
+		<url-pattern>/course/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Liste des notes -->
+	<servlet>
+		<servlet-name>MarkServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.MarkServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MarkServlet</servlet-name>
+		<url-pattern>/marks</url-pattern>
+	</servlet-mapping>
+
+	<!-- Gestion d'une note -->
+	<servlet>
+		<servlet-name>MarkServlet</servlet-name>
+		<servlet-class>eu.ensup.gestionetablissement.presentation.MarkServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MarkServlet</servlet-name>
+		<url-pattern>/mark/*</url-pattern>
+	</servlet-mapping>
+</web-app>

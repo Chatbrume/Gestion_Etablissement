@@ -10,9 +10,12 @@ import java.sql.SQLException;
 public class Connect
 {
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://mysql-gestionetablissement.alwaysdata.net:3306/gestionetablissement_ensup?serverTimezone=UTC";
+	/*private static final String URL = "jdbc:mysql://mysql-gestionetablissement.alwaysdata.net:3306/gestionetablissement_ensup?serverTimezone=UTC";
 	private static final String USERNAME = "225269";
-	private static final String PASSWORD = "GestionEtablissement";
+	private static final String PASSWORD = "GestionEtablissement";*/
+	private static final String URL = "jdbc:mysql://127.0.0.1:3306/gestionetablissement?serverTimezone=UTC";
+	private static final String USERNAME = "dev";
+	private static final String PASSWORD = "dev";
 
 	/**
 	 * Open an connention with the information in the class
@@ -27,11 +30,11 @@ public class Connect
 			//Chargement du Driver
 			Class.forName(DRIVER);
 			//?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-			
+
 			//Récuperation de la connection
 			if( URL != null && USERNAME != null && PASSWORD != null )
 				cn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			
+
 			if( cn == null && URL != null )
 				cn = DriverManager.getConnection(URL);
 
@@ -41,7 +44,7 @@ public class Connect
 			// TODO:  Add logger failed and successfull
 			throw new ExceptionDao("Nous ne parvenons pas à joindre le serveur distant. Veuillez réessayer ultérieurement");
 		}
-		
+
 		return cn;
 	}
 }

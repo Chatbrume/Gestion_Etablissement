@@ -37,10 +37,10 @@ public class MarkDao implements IMarkDao
             }
 
             // TODO:  Add logger failed and successfull
-            if(allMark.isEmpty())
+            /*if(allMark.isEmpty())
             {
                 DaoLogger.logDaoError(className, methodName,"Echec de récupération d'information concernant tous les Mark.");
-            }
+            }*/
 
             DaoLogger.logDaoInfo(className, methodName,"La récupération des informations concernant tous les mark a réussie.");
             st.close();
@@ -87,6 +87,37 @@ public class MarkDao implements IMarkDao
         return allMark;
     }
 
+    public List<Mark> getAllMarkByCourseId( int index )  throws ExceptionDao
+    {
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Connection cn = Connect.openConnection();
+        List<Mark> allMark = new ArrayList<Mark>();
+
+        Statement st = null;
+        ResultSet res = null;
+        try
+        {
+            st = cn.createStatement();
+            res = st.executeQuery("SELECT * FROM Mark WHERE idCourse="+index);
+
+            while( res.next() )
+                allMark.add(new Mark(res.getInt("id"), res.getInt("idStudent"), res.getInt("idCourse"), res.getFloat("mark"), res.getString("assessment")));
+
+            // TODO:  Add logger failed and successfull
+            DaoLogger.logDaoInfo(className, methodName,"Les information " + index + " ont été récupérer de la base de donnée.");
+            st.close();
+            cn.close();
+        }
+        catch (SQLException e)
+        {
+            // TODO:  Add logger failed and successfull
+            DaoLogger.logDaoError(className, methodName,"La transaction SELECT dans la méthode get a échouée.",e);
+            throw new ExceptionDao("Un problème est survenu au niveau de la base de donnée.");
+        }
+
+        return allMark;
+    }
+
     @Override
     public Mark get( int index )  throws ExceptionDao
     {
@@ -100,17 +131,23 @@ public class MarkDao implements IMarkDao
         {
             st = cn.createStatement();
             res = st.executeQuery("SELECT * FROM Mark WHERE id="+index);
-            if(!res.next()){
+
+            System.out.println("Est passer 3");
+            while( res.next() ) {
+                mark = new Mark(res.getInt("id"), res.getInt("idStudent"), res.getInt("idCourse"), res.getFloat("mark"), res.getString("assessment"));
+                System.out.println("Est passer 4");
+            }
+
+            if(mark == null){
                 // TODO:  Add logger failed and successfull
                 DaoLogger.logDaoError(className, methodName,"Echec de récupération d'information concernant le mark. Ce dernier n'existe pas en base de donnée.");
                 throw  new ExceptionDao("Le cours n'existe pas dans la base de donnée.");
             }
+            else {
+                // TODO:  Add logger failed and successfull
+                DaoLogger.logDaoInfo(className, methodName, "Les information " + mark.toString() + " ont été récupérer de la base de donnée.");
+            }
 
-            while( res.next() )
-                mark = new Mark(res.getInt("id"), res.getInt("idStudent"), res.getInt("idCourse"), res.getFloat("mark"), res.getString("assessment"));
-
-            // TODO:  Add logger failed and successfull
-            DaoLogger.logDaoInfo(className, methodName,"Les information " + mark.toString() + " ont été récupérer de la base de donnée.");
             st.close();
             cn.close();
         }
@@ -229,9 +266,9 @@ public class MarkDao implements IMarkDao
                 throw new ExceptionDao("Un problème est survenu au niveau de la base de donnée.");
             }
         }
-        if (res != 0) {
+        /*if (res != 0) {
             DaoLogger.logDaoError(className, methodName,"Echec lors de la suppression de la note. Ce dernier n'existe pas dans la base de donnée.");
-        }
+        }*/
 
         return res;
     }

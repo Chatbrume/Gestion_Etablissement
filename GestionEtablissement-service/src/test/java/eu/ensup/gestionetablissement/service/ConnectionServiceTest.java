@@ -15,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import eu.ensup.gestionetablissement.dao.ExceptionDao;
 import eu.ensup.gestionetablissement.dao.ILoginDao;
+import eu.ensup.gestionetablissement.service.ConnectionService;
+import eu.ensup.gestionetablissement.service.ExceptionService;
 
 @ExtendWith(MockitoExtension.class)
 class ConnectionServiceTest

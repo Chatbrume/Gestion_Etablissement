@@ -49,10 +49,7 @@ public class PersonDao implements IPersonDao
     /**
      * Instantiates a new Dao person.
      */
-    public PersonDao()
-    {
-
-    }
+    public PersonDao() {}
 
     /**
      * Create person. Person could be of type Teacher, Director, Student or Manager
@@ -67,7 +64,7 @@ public class PersonDao implements IPersonDao
             /*
              * CrÃ©er la connexion
              */
-            cn = openConnection();
+            cn = Connect.openConnection();
 
             /*
              * CrÃ©er la requete
@@ -97,7 +94,7 @@ public class PersonDao implements IPersonDao
             {
                 st.setDate  (8, new java.sql.Date(((Student) entity).getDateOfBirth().getTime()));
                 st.setString (9, null);
-                st.setDouble(10, ((Student) entity).getAverage());
+                st.setDouble(10, 0f);
             }else if(entity instanceof Teacher)
             {
                 st.setDate  (8, null);
@@ -111,13 +108,13 @@ public class PersonDao implements IPersonDao
             /*
              * ExÃ©cuter la requÃªte
              */
+            System.out.println("Erreur 0");
+            System.out.println("Erreur 0");
             res = st.executeUpdate();
-
             /*
              * Fermer la connexion
              */
             cn.close();
-
             /**
              * Log to file
              */
@@ -143,7 +140,7 @@ public class PersonDao implements IPersonDao
             /*
              * CrÃ©er la connexion
              */
-            cn = openConnection();
+            cn = Connect.openConnection();
 
             /*
              * CrÃ©er la requÃªte
@@ -221,7 +218,7 @@ public class PersonDao implements IPersonDao
             /*
              * CrÃ©er la connexion
              */
-            cn = openConnection();
+            cn = Connect.openConnection();
 
             /*
              * CrÃ©er la requÃªte
@@ -302,13 +299,13 @@ public class PersonDao implements IPersonDao
      */
     @Override
     public List<Person> getAll() throws ExceptionDao {
-        List<Person> listPerson = new ArrayList<Person>();
+        List<Person> listPerson = new ArrayList<>();
         String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
         try {
             /*
              * CrÃ©er la connexion
              */
-            cn = openConnection();
+            cn = Connect.openConnection();
 
             /*
              * CrÃ©er la requÃªte
@@ -324,7 +321,6 @@ public class PersonDao implements IPersonDao
             /*
              * Créer une personne
              */
-
             while(rs.next())
             {
                 int id = rs.getInt("id");
@@ -336,20 +332,20 @@ public class PersonDao implements IPersonDao
                 int role = rs.getInt("role");
                 String password = rs.getString("password");
                 Object dateofbirth = rs.getObject("dateofbirth");
-                Object subjecttaught = rs.getObject("subjecttaught");
+                String subjecttaught = rs.getString("subjecttaught");
                 float average = rs.getFloat("average");
 
                 Person p1 = null;
 
-                if(rs.getInt("role") == Role.DIRECTOR.getNum())
+                if(role == Role.DIRECTOR.getNum())
                 {
                     p1 = new Director(lastname, email, address, phone, id,  firstName, password);
                 }
-                else if(rs.getInt("role") == Role.MANAGER.getNum())
+                else if(role == Role.MANAGER.getNum())
                 {
                     p1 = new Manager(lastname, email, address, phone, id, firstName, password);
                 }
-                else if(rs.getInt("role") == Role.TEACHER.getNum())
+                else if(role == Role.TEACHER.getNum())
                 {
                     if(subjecttaught != null) {
                         p1 = new Teacher(lastname, email, address, phone, id, firstName, password, (String)subjecttaught);
@@ -358,7 +354,7 @@ public class PersonDao implements IPersonDao
                         p1 = new Teacher(lastname, email, address, phone, id, firstName, password, null);
                     }
                 }
-                else if(rs.getInt("role") == Role.STUDENT.getNum())
+                else if(role == Role.STUDENT.getNum())
                 {
                     if(dateofbirth != null) {
                         p1 = new Student(lastname, email, address, phone, id, firstName, password, (Date)dateofbirth, average);
@@ -367,6 +363,7 @@ public class PersonDao implements IPersonDao
                         p1 = new Student(lastname, email, address, phone, id, firstName, password, null, average);
                     }
                 }
+
                 listPerson.add(p1);
             }
 
@@ -379,9 +376,9 @@ public class PersonDao implements IPersonDao
             /*
              * Fermer la connexion
              */
-
             cn.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             DaoLogger.logDaoError(className, methodName,"La transaction SELECT dans la méthode getAll a échouée.",e);
             throw new ExceptionDao("Impossible de récupérer les informations demandées. Veuillez contacter votre administrateur.");
         }
@@ -401,7 +398,7 @@ public class PersonDao implements IPersonDao
             /*
              * CrÃ©er la connexion
              */
-            cn = openConnection();
+            cn = Connect.openConnection();
 
             /*
              * CrÃ©er la requÃªte
@@ -446,7 +443,7 @@ public class PersonDao implements IPersonDao
             /*
              * CrÃ©er la connexion
              */
-            cn = openConnection();
+            cn = Connect.openConnection();
 
             /*
              * CrÃ©er la requÃªte

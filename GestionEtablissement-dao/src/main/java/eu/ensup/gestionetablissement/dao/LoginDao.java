@@ -44,7 +44,7 @@ public class LoginDao implements ILoginDao {
      * @return the password
      */
     public int checkPassword(String mail, String password) throws ExceptionDao {
-        int id = 0;
+        int role = 0;
         String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
         try {
             /*
@@ -55,7 +55,7 @@ public class LoginDao implements ILoginDao {
             /*
              * CrÃ©er la requÃªte
              */
-            String sql_request = "SELECT id FROM Person WHERE email = ? AND password = ? AND (role = 1 OR role = 2)";
+            String sql_request = "SELECT id, role FROM Person WHERE email = ? AND password = ? AND (role = 1 OR role = 2)";
             st = cn.prepareStatement(sql_request);
             st.setString(1, mail);
             st.setString(2, password);
@@ -65,19 +65,21 @@ public class LoginDao implements ILoginDao {
              */
             rs = st.executeQuery();
 
-
             if (rs.next()) {
-                id = rs.getInt("id");
-                DaoLogger.logDaoInfo(className, methodName,"L'utilisateur " + mail +  " authentifié");
+            	role = rs.getInt("role");
+            	DaoLogger.logDaoInfo(className, methodName,"L'utilisateur " + mail +  " authentifié");
             } else {
                 DaoLogger.logDaoError(className, methodName,mail + " : Identifiant ou mot de passe incorrect.");
                 throw new ExceptionDao("Identifiant ou mot de passe incorrect.");
             }
 
-        } catch (SQLException throwables) {
+            cn.close();
+        }
+        catch (SQLException throwables) {
             DaoLogger.logDaoError(className, methodName,"Une erreur est survenue lors de la vérification du mot de passe de l'utilisateur.",throwables);
             throw new ExceptionDao("Une erreur est survenue lors de la vérification du mot de passe de l'utilisateur.");
         }
-        return id;
+
+        return role;
     }
 }

@@ -36,10 +36,10 @@ public class CourseDao implements ICourseDao
 			}
 
 			// TODO:  Add logger failed and successfull
-			if(allCourse.isEmpty())
+			/*if(allCourse.isEmpty())
 			{
 				DaoLogger.logDaoError(className, methodName,"Echec de récupération d'information concernant tous les Curs.");
-			}
+			}*/
 
 			DaoLogger.logDaoInfo(className, methodName,"La récupération des informations concernant tous les cours a réussie.");
 			st.close();
@@ -293,9 +293,9 @@ public class CourseDao implements ICourseDao
 				res = 0;
 			}
 		}
-		if (res != 0) {
+		/*if (res != 0) {
 			DaoLogger.logDaoError(className, methodName,"Echec lors de la suppression du cours. Ce dernier n'existe pas dans la base de donnée.");
-		}
+		}*/
 		
 		return res;
 	}

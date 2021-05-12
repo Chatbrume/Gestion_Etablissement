@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import eu.ensup.gestionetablissement.dao.ExceptionDao;
 import eu.ensup.gestionetablissement.dao.ICourseDao;
+import eu.ensup.gestionetablissement.service.CourseService;
 
 @ExtendWith(MockitoExtension.class)
 class CourseServiceTest

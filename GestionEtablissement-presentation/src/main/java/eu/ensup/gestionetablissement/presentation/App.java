@@ -5,11 +5,12 @@ import eu.ensup.gestionetablissement.dto.CourseDTO;
 import eu.ensup.gestionetablissement.dto.MarkDTO;
 import eu.ensup.gestionetablissement.dto.PersonDTO;
 import eu.ensup.gestionetablissement.dto.StudentDTO;
-import eu.ensup.gestionetablissement.service.ExceptionService;
-import eu.ensup.gestionetablissement.service.CourseService;
 import eu.ensup.gestionetablissement.service.ConnectionService;
+import eu.ensup.gestionetablissement.service.CourseService;
+import eu.ensup.gestionetablissement.service.ExceptionService;
 import eu.ensup.gestionetablissement.service.MarkService;
 import eu.ensup.gestionetablissement.service.PersonService;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
