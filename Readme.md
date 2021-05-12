@@ -2,12 +2,10 @@
 
 ## Pré-requis
 Version java : 15.0.2
+Système de gestion de Base de donnée: MySQL
+Container web Tomcat : version 7.0
 
 ## Installation
-
-Pré-requis: avoir installé Java en local sur son ordinateur
-Pré-requis: avoir un server de basse de donnée mysql installé en local sur son ordinateur
-Pré-requis: avoir tomcat d'installé sur l'ordinateur
 
 1. Récupéré le projet
   1. en zip
@@ -15,13 +13,14 @@ Pré-requis: avoir tomcat d'installé sur l'ordinateur
     * Cliquer sur le bouton vert "code" puis télécharger le fichier zip.
     * Dans Windows extraire le fichier zip.
   2. avec git
+    * ouvrir un terminale dans le dossier ou vous souhaiter avoir l'application
     * git clone https://github.com/Chatbrume/Gestion_Etablissement.git
 2. La base de donnée
   * Allez dans le dossier Gestion_Etablissement
-  * Se connecter a mysql
-  * mysql -u utilisateur -p  gestionetablissement < gestionetablissement.sql
+  * utiliser le fichier gestionetablissement.sql pour généré la base de donnée
 3. Utiliser l'application
-  *
+  * Copier/Coller le fichier GestionEtablissement.war dans le répertoire 'webapps' de votre container web. Vous devez avoir une instance de tomcat en fonctionnement.
+  * Ouvrir la page web http://localhost:8080/GestionEtablissement dans votre navigateur
 
 # GestionEtablissement
 
@@ -37,12 +36,6 @@ Il est actuellement possible de :
 * Accéder à la liste des étudiants (pour le directeur uniquement)
 
 ## Utilisation
-
-Pré-requis: avoir installé Java en local sur son ordinateur
-
-* Se rendre dans le dossier "GestionEtablissement".
-* Double-cliquer le fichier GestionEtablissement.jar.
-* L'application s'ouvre.
 
 Deux choix sont alors possibles.
 
