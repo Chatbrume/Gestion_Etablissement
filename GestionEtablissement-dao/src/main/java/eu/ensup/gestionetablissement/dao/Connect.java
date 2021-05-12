@@ -1,21 +1,22 @@
 package eu.ensup.gestionetablissement.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * The type Connect.
  */
 public class Connect
 {
-	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	/*private static final String URL = "jdbc:mysql://mysql-gestionetablissement.alwaysdata.net:3306/gestionetablissement_ensup?serverTimezone=UTC";
-	private static final String USERNAME = "225269";
-	private static final String PASSWORD = "GestionEtablissement";*/
-	private static final String URL = "jdbc:mysql://127.0.0.1:3306/gestionetablissement?serverTimezone=UTC";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "";
+	private static String DRIVER = "";
+	private static String URL = "";
+	private static String USERNAME = "";
+	private static String PASSWORD = "";
+	private static Properties properties = new Properties();
 
 	/**
 	 * Open an connention with the information in the class
@@ -24,12 +25,23 @@ public class Connect
 	 */
 	public static Connection openConnection() throws ExceptionDao
 	{
+		InputStream inputStream = Connect.class.getClassLoader().getResourceAsStream("db.properties");
+		try {
+			properties.load(inputStream);
+		}
+		catch (IOException e) {
+			throw new ExceptionDao("Nous ne parvenons pas à joindre le fichier de configuration !");
+		}
+		DRIVER = properties.getProperty("db.driver");
+		URL = properties.getProperty("db.url");
+		USERNAME = properties.getProperty("db.username");
+		PASSWORD = properties.getProperty("db.password");
+
 		Connection cn = null;
 		try
 		{
 			//Chargement du Driver
 			Class.forName(DRIVER);
-			//?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
 
 			//Récuperation de la connection
 			if( URL != null && USERNAME != null && PASSWORD != null )

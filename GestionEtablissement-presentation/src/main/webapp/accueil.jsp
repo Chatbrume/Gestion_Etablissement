@@ -27,7 +27,7 @@
 	                	<a class="btn btn-dark" href="/GestionEtablissement/marks">Lister les notes</a>
 	            	</div>
 	            	<div class="row mt-3">
-	                	<a class="btn btn-dark" href="/GestionEtablissement/stats">Voires les statistiques</a>
+	                	<a class="btn btn-dark" href="/GestionEtablissement/stats">Statistiques</a>
 	            	</div>
 					<% if( request.getSession() != null && request.getSession().getAttribute("role") != null && Integer.parseInt(request.getSession().getAttribute("role").toString()) == 1 ) {%>
 	            	<div class="row mt-3">
